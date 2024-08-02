@@ -156,7 +156,7 @@ public class GraphService(ILoggerFactory loggerFactory) : IGraphService
                 UserPrincipalName = userPrincipalName,
                 PasswordProfile = new PasswordProfile
                 {
-                    ForceChangePasswordNextSignIn = false,
+                    ForceChangePasswordNextSignIn = true,
                     Password = password
                 }
             };
