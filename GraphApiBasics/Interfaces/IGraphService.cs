@@ -39,7 +39,7 @@ public interface IGraphService
     /// <param name="authority"></param>
     /// <param name="userName"></param>
     /// <param name="password"></param>
-    /// <returns></returns>
+    /// <returns>AccessToken</returns>
     public Task<string> GetAccessTokenByUserNamePassword(string clientId, ICollection<string> scopes, string authority,
         string userName, string password);
 
@@ -48,14 +48,14 @@ public interface IGraphService
     /// <param name="clientId"></param>
     /// <param name="tenantId"></param>
     /// <param name="clientSecret"></param>
-    /// <returns></returns>
+    /// <returns>GraphClient</returns>
     public Task<GraphServiceClient> GetGraphServiceClient(string clientId, string tenantId, string clientSecret);
 
     /// <summary>
     /// </summary>
     /// <param name="graphClient"></param>
     /// <param name="userEmail"></param>
-    /// <returns></returns>
+    /// <returns>Existing user</returns>
     public Task<User?> GetUserIfExists(GraphServiceClient graphClient, string userEmail);
 
     /// <summary>
@@ -64,7 +64,7 @@ public interface IGraphService
     /// <param name="displayName"></param>
     /// <param name="userPrincipalName"></param>
     /// <param name="password"></param>
-    /// <returns></returns>
+    /// <returns>Created User</returns>
     public Task<User?> CreateUserAsync(GraphServiceClient graphClient, string? displayName, string userPrincipalName,
         string password);
 }
