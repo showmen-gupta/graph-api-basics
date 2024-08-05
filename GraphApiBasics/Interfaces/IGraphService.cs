@@ -7,7 +7,7 @@ namespace GraphApiBasics.Interfaces;
 public interface IGraphService
 {
     /// <summary>
-    ///     Azure Ad login either silently or interactvely
+    ///     Azure Ad login with ConfidentialClientBuilder
     ///     <param name="clientId"></param>
     ///     <param name="tenantId"></param>
     ///     <param name="clientSecret"></param>
@@ -20,7 +20,7 @@ public interface IGraphService
         string authority);
 
     /// <summary>
-    ///     Azure Ad login either silently or with client crendential
+    ///     Azure Ad login with client crendential
     /// </summary>
     /// <param name="clientId"></param>
     /// <param name="tenantId"></param>
@@ -33,6 +33,7 @@ public interface IGraphService
         CancellationToken cancellationToken = default);
 
     /// <summary>
+    ///     Azure Ad login with user name and password
     /// </summary>
     /// <param name="clientId"></param>
     /// <param name="scopes"></param>
@@ -44,6 +45,7 @@ public interface IGraphService
         string userName, string password);
 
     /// <summary>
+    ///     Getting graph service client
     /// </summary>
     /// <param name="clientId"></param>
     /// <param name="tenantId"></param>
@@ -52,6 +54,7 @@ public interface IGraphService
     public Task<GraphServiceClient> GetGraphServiceClient(string clientId, string tenantId, string clientSecret);
 
     /// <summary>
+    ///     See if the user exists with user email
     /// </summary>
     /// <param name="graphClient"></param>
     /// <param name="userEmail"></param>
@@ -59,6 +62,7 @@ public interface IGraphService
     public Task<User?> GetUserIfExists(GraphServiceClient graphClient, string userEmail);
 
     /// <summary>
+    ///     Create a new user with graph api
     /// </summary>
     /// <param name="graphClient"></param>
     /// <param name="displayName"></param>
@@ -69,30 +73,55 @@ public interface IGraphService
         string password);
 
     /// <summary>
+    ///     Getting list of all users on the tenant
     /// </summary>
     /// <param name="graphClient"></param>
     /// <returns>All Users as list for a specific tenant</returns>
     public Task<List<User>>? GetUserListAsync(GraphServiceClient graphClient);
 
     /// <summary>
+    ///     PageIterator to automatically page through result sets across multiple calls and process each item in
+    ///     the result set.
     /// </summary>
     /// <param name="graphClient"></param>
-    /// <returns>returns PageIterator to automatically page through result sets across multiple calls and process each item in the result set.</returns>
+    /// <returns>
+    ///     PageIterator
+    /// </returns>
     public Task<PageIterator<User, UserCollectionResponse>>? GetPageIterator(GraphServiceClient graphClient);
+
     /// <summary>
+    ///     Apart from passing instances of HttpRequestMessage, batch requests support the passing of RequestInformation
+    ///     instances as follows.
     /// </summary>
     /// <param name="graphClient"></param>
     /// <returns>All Users as list with batch request</returns>
     public Task<List<User>>? GetUsersWithBatchRequest(GraphServiceClient graphClient);
+
     /// <summary>
+    ///     Getting info for the currently authenticated user
     /// </summary>
     /// <param name="graphClient"></param>
     /// <returns>Currently logged in user info</returns>
     public Task<User> GetCurrentlyLoggedInUserInfo(GraphServiceClient graphClient);
 
     /// <summary>
+    ///     Get count of users in a tenant
     /// </summary>
     /// <param name="graphClient"></param>
     /// <returns>Get User counts with from graph api</returns>
     public Task<int?> GetUsersCount(GraphServiceClient graphClient);
+
+    /// <summary>
+    ///     Get users of a specific group that those users belong
+    /// </summary>
+    /// <param name="graphClient"></param>
+    /// <returns> Users in group</returns>
+    public Task<UserCollectionResponse> GetUsersInGroup(GraphServiceClient graphClient);
+
+    /// <summary>
+    ///     Get applications of a specific group that those apps belong
+    /// </summary>
+    /// <param name="graphClient"></param>
+    /// <returns> Applications in group</returns>
+    public Task<ApplicationCollectionResponse> GetApplicationsInGroup(GraphServiceClient graphClient);
 }

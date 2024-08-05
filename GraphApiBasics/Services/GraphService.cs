@@ -260,6 +260,7 @@ public class GraphService(ILoggerFactory loggerFactory) : IGraphService
             throw new BadHttpRequestException(ex.Message);
         }
     }
+
     /// <inheritdoc />
     public async Task<int?> GetUsersCount(GraphServiceClient graphClient)
     {
@@ -268,6 +269,33 @@ public class GraphService(ILoggerFactory loggerFactory) : IGraphService
             var count = await graphClient.Users.Count.GetAsync(requestConfiguration =>
                 requestConfiguration.Headers.Add("ConsistencyLevel", "eventual"));
             return count;
+        }
+        catch (Exception ex)
+        {
+            throw new BadHttpRequestException(ex.Message);
+        }
+    }
+
+    /// <inheritdoc />
+    public async Task<UserCollectionResponse> GetUsersInGroup(GraphServiceClient graphClient)
+    {
+        try
+        {
+            var usersInGroup = await graphClient.Groups["group-id"].Members.GraphUser.GetAsync();
+            return usersInGroup ?? throw new InvalidOperationException();
+        }
+        catch (Exception ex)
+        {
+            throw new BadHttpRequestException(ex.Message);
+        }
+    }
+    /// <inheritdoc /> 
+    public async Task<ApplicationCollectionResponse> GetApplicationsInGroup(GraphServiceClient graphClient)
+    {
+        try
+        {
+            var applicationsInGroup = await graphClient.Groups["group-id"].Members.GraphApplication.GetAsync();
+            return applicationsInGroup ?? throw new InvalidOperationException();
         }
         catch (Exception ex)
         {
