@@ -115,13 +115,15 @@ public interface IGraphService
     ///     Get users of a specific group that those users belong
     /// </summary>
     /// <param name="graphClient"></param>
+    /// <param name="groupId"></param>
     /// <returns> Users in group</returns>
-    public Task<UserCollectionResponse> GetUsersInGroup(GraphServiceClient graphClient);
+    public Task<UserCollectionResponse> GetUsersInGroup(GraphServiceClient graphClient, string groupId);
 
     /// <summary>
     ///     Get applications of a specific group that those apps belong
     /// </summary>
     /// <param name="graphClient"></param>
+    /// <param name="groupId"></param>
     /// <returns> Applications in group</returns>
-    public Task<ApplicationCollectionResponse> GetApplicationsInGroup(GraphServiceClient graphClient);
+    public Task<ApplicationCollectionResponse> GetApplicationsInGroup(GraphServiceClient graphClient, string groupId);
 }

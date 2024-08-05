@@ -277,7 +277,7 @@ public class GraphService(ILoggerFactory loggerFactory) : IGraphService
     }
 
     /// <inheritdoc />
-    public async Task<UserCollectionResponse> GetUsersInGroup(GraphServiceClient graphClient)
+    public async Task<UserCollectionResponse> GetUsersInGroup(GraphServiceClient graphClient, string groupId)
     {
         try
         {
@@ -290,11 +290,11 @@ public class GraphService(ILoggerFactory loggerFactory) : IGraphService
         }
     }
     /// <inheritdoc /> 
-    public async Task<ApplicationCollectionResponse> GetApplicationsInGroup(GraphServiceClient graphClient)
+    public async Task<ApplicationCollectionResponse> GetApplicationsInGroup(GraphServiceClient graphClient, string groupId)
     {
         try
         {
-            var applicationsInGroup = await graphClient.Groups["group-id"].Members.GraphApplication.GetAsync();
+            var applicationsInGroup = await graphClient.Groups[groupId].Members.GraphApplication.GetAsync();
             return applicationsInGroup ?? throw new InvalidOperationException();
         }
         catch (Exception ex)
