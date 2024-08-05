@@ -244,4 +244,34 @@ public class GraphService(ILoggerFactory loggerFactory) : IGraphService
             throw new BadHttpRequestException(ex.Message);
         }
     }
+
+    /// <inheritdoc />
+    public async Task<User> GetCurrentlyLoggedInUserInfo(GraphServiceClient graphClient)
+    {
+        try
+        {
+            var user = await graphClient
+                .Me
+                .GetAsync();
+            return user ?? throw new InvalidOperationException();
+        }
+        catch (Exception ex)
+        {
+            throw new BadHttpRequestException(ex.Message);
+        }
+    }
+    /// <inheritdoc />
+    public async Task<int?> GetUsersCount(GraphServiceClient graphClient)
+    {
+        try
+        {
+            var count = await graphClient.Users.Count.GetAsync(requestConfiguration =>
+                requestConfiguration.Headers.Add("ConsistencyLevel", "eventual"));
+            return count;
+        }
+        catch (Exception ex)
+        {
+            throw new BadHttpRequestException(ex.Message);
+        }
+    }
 }

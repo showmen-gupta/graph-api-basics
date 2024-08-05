@@ -77,8 +77,22 @@ public interface IGraphService
     /// <summary>
     /// </summary>
     /// <param name="graphClient"></param>
-    /// <returns>All Users as list for a specific tenant</returns>
+    /// <returns>returns PageIterator to automatically page through result sets across multiple calls and process each item in the result set.</returns>
     public Task<PageIterator<User, UserCollectionResponse>>? GetPageIterator(GraphServiceClient graphClient);
-    
+    /// <summary>
+    /// </summary>
+    /// <param name="graphClient"></param>
+    /// <returns>All Users as list with batch request</returns>
     public Task<List<User>>? GetUsersWithBatchRequest(GraphServiceClient graphClient);
+    /// <summary>
+    /// </summary>
+    /// <param name="graphClient"></param>
+    /// <returns>Currently logged in user info</returns>
+    public Task<User> GetCurrentlyLoggedInUserInfo(GraphServiceClient graphClient);
+
+    /// <summary>
+    /// </summary>
+    /// <param name="graphClient"></param>
+    /// <returns>Get User counts with from graph api</returns>
+    public Task<int?> GetUsersCount(GraphServiceClient graphClient);
 }
