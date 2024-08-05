@@ -61,7 +61,7 @@ public class GraphApiController(IOptions<GraphSecretOptions> graphSecretOptions,
         var graphClient = await graphService.GetGraphServiceClient(clientId, tenantId, clientSecret);
         var validUser = await graphService.GetUserIfExists(graphClient, userEmail);
 
-        if (validUser != null) return BadRequest("User Already Exists");
+        if (validUser != null) return NotFound("User Already Exists");
 
         var user = await graphService.CreateUserAsync(graphClient, displayName, userEmail, password);
         return Ok(new

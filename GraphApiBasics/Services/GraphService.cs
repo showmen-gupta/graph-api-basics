@@ -168,4 +168,80 @@ public class GraphService(ILoggerFactory loggerFactory) : IGraphService
             throw new BadHttpRequestException(ex.Message);
         }
     }
+
+    /// <inheritdoc />
+    public async Task<List<User>>? GetUserListAsync(GraphServiceClient graphClient)
+    {
+        try
+        {
+            var usersResponse = await graphClient
+                .Users
+                .GetAsync(requestConfiguration =>
+                    requestConfiguration.QueryParameters.Select = new[] { "id", "createdDateTime" });
+
+            var userList = usersResponse?.Value;
+            return userList ?? throw new InvalidOperationException();
+        }
+        catch (Exception ex)
+        {
+            throw new BadHttpRequestException(ex.Message);
+        }
+    }
+
+    /// <inheritdoc />
+    public async Task<PageIterator<User, UserCollectionResponse>>? GetPageIterator(GraphServiceClient graphClient)
+    {
+        try
+        {
+            var usersResponse = await graphClient
+                .Users
+                .GetAsync(requestConfiguration =>
+                {
+                    requestConfiguration.QueryParameters.Select = new[] { "id", "createdDateTime" };
+                    requestConfiguration.QueryParameters.Top = 1;
+                });
+
+            var pageIterator = PageIterator<User, UserCollectionResponse>.CreatePageIterator(graphClient,
+                usersResponse ?? throw new InvalidOperationException(),
+                user =>
+                {
+                    new List<User>().Add(user);
+                    return true;
+                });
+
+            return pageIterator;
+        }
+        catch (Exception ex)
+        {
+            throw new BadHttpRequestException(ex.Message);
+        }
+    }
+
+    /// <inheritdoc />
+    public async Task<List<User>>? GetUsersWithBatchRequest(GraphServiceClient graphClient)
+    {
+        try
+        {
+            var requestInformation = graphClient
+                .Users
+                .ToGetRequestInformation();
+
+            // create the content
+            var batchRequestContent = new BatchRequestContentCollection(graphClient);
+            // add steps
+            var requestStepId = await batchRequestContent.AddBatchRequestStepAsync(requestInformation);
+
+            // send and get back response
+            var batchResponseContent = await graphClient.Batch.PostAsync(batchRequestContent);
+
+            var usersResponse = await batchResponseContent.GetResponseByIdAsync<UserCollectionResponse>(requestStepId);
+            var userList = usersResponse.Value;
+
+            return userList ?? throw new InvalidOperationException();
+        }
+        catch (Exception ex)
+        {
+            throw new BadHttpRequestException(ex.Message);
+        }
+    }
 }

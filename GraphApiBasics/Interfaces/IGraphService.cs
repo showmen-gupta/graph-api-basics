@@ -67,4 +67,18 @@ public interface IGraphService
     /// <returns>Created User</returns>
     public Task<User?> CreateUserAsync(GraphServiceClient graphClient, string? displayName, string userPrincipalName,
         string password);
+
+    /// <summary>
+    /// </summary>
+    /// <param name="graphClient"></param>
+    /// <returns>All Users as list for a specific tenant</returns>
+    public Task<List<User>>? GetUserListAsync(GraphServiceClient graphClient);
+
+    /// <summary>
+    /// </summary>
+    /// <param name="graphClient"></param>
+    /// <returns>All Users as list for a specific tenant</returns>
+    public Task<PageIterator<User, UserCollectionResponse>>? GetPageIterator(GraphServiceClient graphClient);
+    
+    public Task<List<User>>? GetUsersWithBatchRequest(GraphServiceClient graphClient);
 }
