@@ -120,7 +120,7 @@ public interface IGraphService
     public Task<UserCollectionResponse> GetUsersInGroup(GraphServiceClient graphClient, string groupId);
 
     /// <summary>
-    ///     Get applications of a specific group that those apps belong
+    ///     Get applications of a specific group that belongs to that tenant
     /// </summary>
     /// <param name="graphClient"></param>
     /// <param name="groupId"></param>
