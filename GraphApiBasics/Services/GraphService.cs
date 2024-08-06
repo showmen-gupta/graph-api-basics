@@ -177,7 +177,7 @@ public class GraphService(ILoggerFactory loggerFactory) : IGraphService
             var usersResponse = await graphClient
                 .Users
                 .GetAsync(requestConfiguration =>
-                    requestConfiguration.QueryParameters.Select = new[] { "id", "createdDateTime" });
+                    requestConfiguration.QueryParameters.Select = ["id", "createdDateTime", "userPrincipalName"]);
 
             var userList = usersResponse?.Value;
             return userList ?? throw new InvalidOperationException();
@@ -289,8 +289,10 @@ public class GraphService(ILoggerFactory loggerFactory) : IGraphService
             throw new BadHttpRequestException(ex.Message);
         }
     }
-    /// <inheritdoc /> 
-    public async Task<ApplicationCollectionResponse> GetApplicationsInGroup(GraphServiceClient graphClient, string groupId)
+
+    /// <inheritdoc />
+    public async Task<ApplicationCollectionResponse> GetApplicationsInGroup(GraphServiceClient graphClient,
+        string groupId)
     {
         try
         {

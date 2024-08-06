@@ -15,24 +15,24 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Repositories\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <Compile Remove="Controllers\Repositories\**" />
       <Compile Remove="Startup.cs" />
+      <Compile Remove="Repositories\**" />
     </ItemGroup>
 
     <ItemGroup>
       <EmbeddedResource Remove="Controllers\Repositories\**" />
+      <EmbeddedResource Remove="Repositories\**" />
     </ItemGroup>
 
     <ItemGroup>
       <Content Remove="Controllers\Repositories\**" />
+      <Content Remove="Repositories\**" />
     </ItemGroup>
 
     <ItemGroup>
       <None Remove="Controllers\Repositories\**" />
+      <None Remove="Repositories\**" />
     </ItemGroup>
 
 </Project>
