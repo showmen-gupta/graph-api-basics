@@ -177,7 +177,7 @@ public class GraphService(ILoggerFactory loggerFactory) : IGraphService
             var usersResponse = await graphClient
                 .Users
                 .GetAsync(requestConfiguration =>
-                    requestConfiguration.QueryParameters.Select = ["id", "createdDateTime", "userPrincipalName"]);
+                    requestConfiguration.QueryParameters.Select = ["id", "createdDateTime", "userPrincipalName", "displayName"]);
 
             var userList = usersResponse?.Value;
             return userList ?? throw new InvalidOperationException();
